@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import "reflect-metadata";
-import { AppDataSource } from "./dataSource";
+import { AppDataSource } from "./data-source";
 import tarefaRotas from "./routes/tasks";
 
 const app = express();
