@@ -5,7 +5,10 @@
     "moduleResolution": "node",
     "rootDir": "src",
     "outDir": "dist",
+    "strict": true,
     "esModuleInterop": true,
-    "strict": true
-  }
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["src"]
 }
