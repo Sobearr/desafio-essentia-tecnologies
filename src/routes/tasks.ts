@@ -1,13 +1,16 @@
 import { Router } from "express";
-import { AppDataSource } from "../data-source";
-import { Task } from "../entities/task";
+import {
+  getAllTasks,
+  createTask,
+  updateTask,
+  deleteTask,
+} from "../controllers/task.controller";
 
 const router = Router();
-const tarefaRepo = AppDataSource.getRepository(Task);
 
-router.get("/", async (_, res) => {
-  const tarefas = await tarefaRepo.find();
-  res.send(tarefas);
-});
+router.get("/", getAllTasks);
+router.post("/", createTask);
+router.put("/:id", updateTask);
+router.delete("/:id", deleteTask);
 
 export default router;
