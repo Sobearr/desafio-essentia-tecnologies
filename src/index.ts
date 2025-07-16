@@ -3,7 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import "reflect-metadata";
 import { AppDataSource } from "./data-source";
-import tarefaRotas from "./routes/tasks";
+import taskRoutes from "./routes/tasks";
 
 const app = express();
 app.use(cors());
@@ -13,18 +13,18 @@ const PORT = process.env.PORT || 3000;
 
 AppDataSource.initialize()
   .then(() => {
-    console.log("DataSource inicializado");
+    console.log("DataSource initialized");
 
-    app.use("/tarefas", tarefaRotas);
+    app.use("/tasks", taskRoutes);
 
     app.get("/", (req, res) => {
-      res.send("API To-Do rodando...");
+      res.send("To-do API is running...");
     });
 
     app.listen(PORT, () => {
-      console.log(`Servidor ouvindo na porta ${PORT}`);
+      console.log(`Server listening on port ${PORT}`);
     });
   })
   .catch((err) => {
-    console.error("Erro ao inicializar o DataSource", err);
+    console.error("DataSource initialization error", err);
   });
