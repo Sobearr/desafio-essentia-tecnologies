@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 // import { RouterOutlet } from '@angular/router';
-import { TaskList } from './task-list/task-list';
+import { TaskListComponent } from './task/list/list';
 
 @Component({
   selector: 'app-root',
-  imports: [TaskList],
+  imports: [TaskListComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
