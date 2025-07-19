@@ -23,7 +23,7 @@ export class TaskService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  toggleTask(id: number, complete: boolean): Observable<Task> {
-    return this.http.patch<Task>(`${this.baseUrl}/${id}`, { complete });
+  updateTask(id: number, update: Partial<Task>): Observable<Task> {
+    return this.http.put<Task>(`${this.baseUrl}/${id}`, update);
   }
 }
