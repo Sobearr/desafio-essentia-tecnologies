@@ -25,4 +25,20 @@ export class TaskListComponent implements OnInit {
       error: (err) => console.error('Error loading tasks', err),
     });
   }
+
+  deleteTask(id: number): void {
+    this.taskService.deleteTask(id).subscribe({
+      next: () => this.getTasks(),
+      error: (err) => console.error('Error deleting task', err),
+    });
+  }
+
+  toggleComplete(task: Task): void {
+    const updated = { ...task, complete: !task.complete };
+
+    this.taskService.toggleTask(updated.id, updated.complete).subscribe({
+      next: () => this.getTasks(),
+      error: (err) => console.error('Error toggling task', err),
+    });
+  }
 }
