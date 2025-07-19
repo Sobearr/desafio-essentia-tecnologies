@@ -1,5 +1,7 @@
 <h2>My Tasks</h2>
 
+<task-form (taskCreated)="getTasks()"></task-form>
+
 <ul>
   @for (task of tasks; track task.id) {
   <li>

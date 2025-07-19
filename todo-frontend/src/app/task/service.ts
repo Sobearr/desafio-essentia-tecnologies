@@ -14,4 +14,8 @@ export class TaskService {
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(this.baseUrl);
   }
+
+  createTask(task: Omit<Task, 'id'>): Observable<Task> {
+    return this.http.post<Task>(this.baseUrl, task);
+  }
 }
