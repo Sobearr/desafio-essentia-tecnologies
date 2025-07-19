@@ -1,0 +1,10 @@
+<form (ngSubmit)="addTask()">
+  <input
+    type="text"
+    [(ngModel)]="newTaskTitle"
+    name="title"
+    placeholder="New task"
+    required
+  />
+  <button type="submit">Add Task</button>
+</form>
