@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Task } from '../model';
 import { TaskService } from '../service';
 import { TaskFormComponent } from '../form/form';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'task-list',
   standalone: true,
-  imports: [TaskFormComponent],
+  imports: [FormsModule, TaskFormComponent],
   templateUrl: './list.html',
   styleUrl: './list.css',
 })
@@ -34,11 +35,36 @@ export class TaskListComponent implements OnInit {
   }
 
   toggleComplete(task: Task): void {
-    const updated = { ...task, complete: !task.complete };
+    this.taskService
+      .updateTask(task.id, { complete: !task.complete })
+      .subscribe({
+        next: () => this.getTasks(),
+        error: (err) => console.error('Error toggling task', err),
+      });
+  }
 
-    this.taskService.toggleTask(updated.id, updated.complete).subscribe({
-      next: () => this.getTasks(),
-      error: (err) => console.error('Error toggling task', err),
+  editingTaskId: number | null = null;
+  editedTitle: string = '';
+
+  startEditing(task: Task): void {
+    this.editingTaskId = task.id;
+    this.editedTitle = task.title;
+  }
+
+  saveEdit(task: Task): void {
+    const title = this.editedTitle.trim();
+    if (!title) return;
+
+    this.taskService.updateTask(task.id, { title }).subscribe({
+      next: () => {
+        this.editingTaskId = null;
+        this.getTasks();
+      },
+      error: (err) => console.error('Error updating task', err),
     });
+  }
+
+  cancelEdit(): void {
+    this.editingTaskId = null;
   }
 }

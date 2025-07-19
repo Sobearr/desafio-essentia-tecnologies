@@ -5,9 +5,20 @@
 <ul>
   @for (task of tasks; track task.id) {
   <li>
-    <input type="checkbox" [checked]="task.complete" disabled />
+    <input
+      type="checkbox"
+      [checked]="task.complete"
+      (change)="toggleComplete(task)"
+    />
+    @if (editingTaskId === task.id) {
+    <input [(ngModel)]="editedTitle" name="editTitle" />
+    <button (click)="saveEdit(task)">💾</button>
+    <button (click)="cancelEdit()">❌</button>
+    } @else {
     {{ task.title }}
+    <button (click)="startEditing(task)">✏️</button>
     <button (click)="deleteTask(task.id)">🗑</button>
+    }
   </li>
   }
 </ul>
