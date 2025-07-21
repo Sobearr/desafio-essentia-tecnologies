@@ -17,7 +17,7 @@ Desafio para vaga Desenvolvedor Full Stack
 todo-app/
 ├── todo-backend/ # Node.js + TypeORM + MySQL
     └── docker-compose.yaml # Docker config para criar servidor MySQL
-├── todo-frontend/ # Angular 20 (componentes standalone)
+└── todo-frontend/ # Angular 20 (componentes standalone)
 ```
 
 ---
