@@ -46,8 +46,6 @@ export class TaskListComponent implements OnInit {
     });
   }
 
-  editedTitle: string = '';
-
   taskFormModel: Task = { title: '', complete: false };
 
   editTask(task: Task): void {
@@ -69,5 +67,18 @@ export class TaskListComponent implements OnInit {
       });
     }
     this.taskFormModel = { title: '', complete: false };
+  }
+
+  filter: 'all' | 'active' | 'completed' = 'all';
+
+  get filteredTasks(): Task[] {
+    switch (this.filter) {
+      case 'active':
+        return this.tasks.filter((t) => !t.complete);
+      case 'completed':
+        return this.tasks.filter((t) => t.complete);
+      default:
+        return this.tasks;
+    }
   }
 }
