@@ -16,8 +16,8 @@ Desafio para vaga Desenvolvedor Full Stack
 ```
 todo-app/
 ├── todo-backend/ # Node.js + TypeORM + MySQL
+    └── docker-compose.yaml # Docker config para criar servidor MySQL
 ├── todo-frontend/ # Angular 20 (componentes standalone)
-└── docker-compose.yml # Docker config para criar servidor MySQL
 ```
 
 ---
@@ -74,7 +74,7 @@ npm start
 O app estará disponível em http://localhost:4200/
 Certifique-se de que o backend está rodando na porta 3000.
 
-# ✅ Funcionalidadse
+# ✅ Funcionalidades
 
 - Criar novas tarefas através de um formulário
 - Marcar tarefas como concluídas
