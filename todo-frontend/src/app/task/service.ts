@@ -23,7 +23,7 @@ export class TaskService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  updateTask(id: number, update: Partial<Task>): Observable<Task> {
-    return this.http.put<Task>(`${this.baseUrl}/${id}`, update);
+  updateTask(update: Partial<Task> & { id: number }): Observable<Task> {
+    return this.http.put<Task>(`${this.baseUrl}/${update.id}`, update);
   }
 }

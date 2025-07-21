@@ -3,11 +3,12 @@ import { Task } from '../model';
 import { TaskService } from '../service';
 import { TaskFormComponent } from '../form/form';
 import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'task-list',
   standalone: true,
-  imports: [FormsModule, TaskFormComponent],
+  imports: [FormsModule, TaskFormComponent, NgClass],
   templateUrl: './list.html',
   styleUrl: './list.css',
 })
@@ -28,6 +29,8 @@ export class TaskListComponent implements OnInit {
   }
 
   deleteTask(id: number): void {
+    if (!id) return;
+
     this.taskService.deleteTask(id).subscribe({
       next: () => this.getTasks(),
       error: (err) => console.error('Error deleting task', err),
@@ -35,36 +38,36 @@ export class TaskListComponent implements OnInit {
   }
 
   toggleComplete(task: Task): void {
-    this.taskService
-      .updateTask(task.id, { complete: !task.complete })
-      .subscribe({
-        next: () => this.getTasks(),
-        error: (err) => console.error('Error toggling task', err),
-      });
-  }
+    const updated = { id: task.id!, complete: !task.complete };
 
-  editingTaskId: number | null = null;
-  editedTitle: string = '';
-
-  startEditing(task: Task): void {
-    this.editingTaskId = task.id;
-    this.editedTitle = task.title;
-  }
-
-  saveEdit(task: Task): void {
-    const title = this.editedTitle.trim();
-    if (!title) return;
-
-    this.taskService.updateTask(task.id, { title }).subscribe({
-      next: () => {
-        this.editingTaskId = null;
-        this.getTasks();
-      },
-      error: (err) => console.error('Error updating task', err),
+    this.taskService.updateTask(updated).subscribe({
+      next: () => this.getTasks(),
+      error: (err) => console.error('Error toggling task', err),
     });
   }
 
-  cancelEdit(): void {
-    this.editingTaskId = null;
+  editedTitle: string = '';
+
+  taskFormModel: Task = { title: '', complete: false };
+
+  editTask(task: Task): void {
+    this.taskFormModel = { ...task };
+  }
+
+  handleFormSubmit(task: Task): void {
+    if (task.id) {
+      this.taskService
+        .updateTask(task as Partial<Task> & { id: number })
+        .subscribe({
+          next: () => this.getTasks(),
+          error: (err) => console.error('Error updating task', err),
+        });
+    } else {
+      this.taskService.createTask(task).subscribe({
+        next: () => this.getTasks(),
+        error: (err) => console.error('Error creating task', err),
+      });
+    }
+    this.taskFormModel = { title: '', complete: false };
   }
 }

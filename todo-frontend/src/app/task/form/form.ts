@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TaskService } from '../service';
 import { Task } from '../model';
@@ -10,29 +17,21 @@ import { Task } from '../model';
   templateUrl: './form.html',
   styleUrl: './form.css',
 })
-export class TaskFormComponent {
-  newTaskTitle: string = '';
+export class TaskFormComponent implements OnChanges {
+  @Input() task: Task = { title: '', complete: false };
+  @Output() submitted = new EventEmitter<Task>();
 
-  @Output()
-  taskCreated = new EventEmitter<void>();
+  model: Task = { title: '', complete: false };
 
-  constructor(private taskService: TaskService) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['task'] && this.task) {
+      this.model = { ...this.task };
+    }
+  }
 
-  addTask(): void {
-    const title = this.newTaskTitle.trim();
-    if (!title) return;
-
-    const newTask: Omit<Task, 'id'> = {
-      title,
-      complete: false,
-    };
-
-    this.taskService.createTask(newTask).subscribe({
-      next: () => {
-        this.newTaskTitle = '';
-        this.taskCreated.emit();
-      },
-      error: (err) => console.error('Error creating task', err),
-    });
+  onSubmit(): void {
+    if (!this.model.title.trim()) return;
+    this.submitted.emit(this.model);
+    this.model = { title: '', complete: false };
   }
 }
