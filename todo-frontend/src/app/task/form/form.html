@@ -1,10 +1,16 @@
-<form (ngSubmit)="addTask()">
+<form (submit)="onSubmit()" class="flex gap-2">
   <input
     type="text"
-    [(ngModel)]="newTaskTitle"
+    [(ngModel)]="model.title"
     name="title"
-    placeholder="New task"
+    placeholder="Add a new task"
+    class="flex-1 px-4 py-2 rounded border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
     required
   />
-  <button type="submit">Add Task</button>
+  <button
+    type="submit"
+    class="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700 transition"
+  >
+    {{ model.id ? "Update" : "Add" }}
+  </button>
 </form>
